@@ -1,0 +1,48 @@
+// question link : https://leetcode.com/problems/network-delay-time/
+
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        // this the question of the dijsktra's shortest path 
+        // first we have to create graph 
+        
+      
+        
+        
+        vector<pair<int, int>> grp[n+1];
+        vector<int> dis( n + 1 );
+        
+        for ( int i = 1 ; i <= n ; i ++){
+            grp[i].clear() , dis[i] = INT_MAX;
+        }
+        
+        // we have source as k and dest as n
+        
+        for ( int i = 0 ; i < times.size() ; i++){
+             grp[times[i][0]].push_back(make_pair(times[i][1] , times[i][2]));
+        }
+        
+        priority_queue < pair <int, int> , vector<pair <int , int>> , greater <pair <int , int>>> pq;
+        
+        dis[k] = 0;
+        pq.push(make_pair(0, k));
+        
+        while(!pq.empty()){
+            auto temp = pq.top();
+            int distance = temp.first;
+            int node = temp.second;
+            pq.pop();
+            for ( auto i : grp[node]){
+                int nextnode = i.first;
+                int disnode = i.second;
+                
+                if ( dis[nextnode] > disnode + distance){
+                    dis[nextnode] = disnode + distance;
+                    pq.push(make_pair(dis[nextnode],nextnode));
+                }
+            }
+        }
+        
+        return (*max_element(dis.begin()+1 , dis.end())== INT_MAX )? -1 :*max_element(dis.begin()+1 , dis.end() );
+    }
+};
