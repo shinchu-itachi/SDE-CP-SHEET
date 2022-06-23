@@ -117,24 +117,25 @@ void solve() {
    ll n , m , x ;
    cin >> n >> m >> x ;
    cout << "YES" << endl;
-   priority_queue<pair <int, int>> pq;
-   // creating priority queue
+   set<pair <int, int>> st;
+   
    for ( int i = 1 ; i <= m ; i ++) {
-      pq.push({0, i });
+      st.insert({0, i});
    }
 
    vector<int> heights( n , 0);
    for ( int i = 0 ; i < n ; i++) {
       cin >> heights.at(i);
 
-      pair<int, int> p = pq.top();
-      pq.pop();
+      pair<int, int> p = *st.begin();
+      st.erase(p);
 
       cout << p.second << " ";
-      pq.push( {p.first + heights.at(i) , p.second});
+      st.insert( {p.first + heights.at(i) , p.second});
 
    }
 
+  
    cout << endl;
 }
 
